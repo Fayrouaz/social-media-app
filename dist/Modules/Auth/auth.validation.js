@@ -33,7 +33,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.signUpSchema = exports.loginSchema = void 0;
+exports.signUpSchema = exports.confirmEmislOtpSchema = exports.loginSchema = void 0;
 const z = __importStar(require("zod"));
 const validation_middleware_1 = require("../../Middleware/validation.middleware");
 exports.loginSchema = {
@@ -42,10 +42,16 @@ exports.loginSchema = {
         password: validation_middleware_1.generalFields.password,
     })
 };
+exports.confirmEmislOtpSchema = {
+    body: z.strictObject({
+        email: validation_middleware_1.generalFields.email,
+        otp: validation_middleware_1.generalFields.password,
+    })
+};
 exports.signUpSchema = {
     body: exports.loginSchema.body.extend({
         username: validation_middleware_1.generalFields.username,
-        confirmPasword: validation_middleware_1.generalFields.confirmPasword
+        confirmPasword: validation_middleware_1.generalFields.confirmPassword
     }).superRefine((data, ctx) => {
         if (data.password !== data.confirmPasword) {
             ctx.addIssue({ code: "custom", path: ["ConfirmPasword"], message: "Password Miss Match " });

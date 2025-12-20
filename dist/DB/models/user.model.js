@@ -17,7 +17,7 @@ exports.userSchema = new mongoose_1.Schema({
     lastName: { type: String, required: true, minLength: 2, maxLength: 25 },
     email: { type: String, required: true, unique: true },
     confirmEmailOTP: String,
-    confiremedAt: Date,
+    confirmedAt: Date,
     password: { type: String, required: true },
     resetPasswordOTP: String,
     phone: String,
@@ -31,9 +31,9 @@ exports.userSchema = new mongoose_1.Schema({
         type: String,
         enum: Object.values(roleEnum),
         default: roleEnum.USER,
-    }
+    },
 }, { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } });
-exports.userSchema.virtual("username ").set(function (value) {
+exports.userSchema.virtual("username").set(function (value) {
     const [firstName, lastName] = value.split(" ") || [];
     this.set({ firstName, lastName });
 }).get((function () {

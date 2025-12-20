@@ -13,7 +13,8 @@ const dotenv_1 = require("dotenv");
 (0, dotenv_1.config)({ path: node_path_1.default.resolve("./config/.env.dev") });
 const auth_controller_1 = __importDefault(require("./Modules/Auth/auth.controller"));
 const error_response_1 = require("./Utils/response/error.response");
-const cinection_1 = __importDefault(require("./DB/models/cinection"));
+const user_controller_1 = __importDefault(require("./Modules/User/user.controller"));
+const cinection_1 = __importDefault(require("./DB/cinection"));
 const limiter = (0, express_rate_limit_1.default)({
     windowMs: 15 * 60 * 100,
     limit: 100,
@@ -29,15 +30,16 @@ const boostrap = () => {
     app.use(limiter);
     (0, cinection_1.default)();
     app.get("/", (req, res) => {
-        res.status(200).json({ message: "Welcome to Social Media app" });
+        res.status(200).json({ message: "Welcome to Social Media app👌" });
     });
     app.use("/api/v1/auth", auth_controller_1.default);
+    app.use("/api/v1/user", user_controller_1.default);
     app.use("{/*dummy}", (req, res) => {
-        res.status(404).json({ message: "Not Found Handler" });
+        res.status(404).json({ message: "Not Found Handler👨‍🦯" });
     });
     app.use(error_response_1.globalErrorHandler);
     app.listen(port, () => {
-        console.log(`Server is Running on http://localhost:${port}`);
+        console.log(`Server is Running on http://localhost:${port}🚀`);
     });
 };
 exports.boostrap = boostrap;

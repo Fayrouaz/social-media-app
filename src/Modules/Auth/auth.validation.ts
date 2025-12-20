@@ -9,16 +9,24 @@ export const  loginSchema  = {
    email : generalFields.email,
    password : generalFields.password,
   
- })
+  })
 
 }
 
-export const  signUpSchema = {
- body :loginSchema.body.extend({
-   
-   username : generalFields.username ,
+export const  confirmEmislOtpSchema  = {
+ body :z.strictObject({
+   email : generalFields.email,
+    otp : generalFields.password,
+  
+  })
 
-   confirmPasword : generalFields.confirmPasword
+}
+
+
+export const  signUpSchema = {
+   body :loginSchema.body.extend({
+   username : generalFields.username ,
+   confirmPasword : generalFields.confirmPassword
  }).superRefine((data , ctx)=>{
       if(data.password !== data.confirmPasword){
          ctx.addIssue({code : "custom" ,path:["ConfirmPasword"] , message : "Password Miss Match "})

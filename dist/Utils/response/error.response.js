@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.globalErrorHandler = exports.ConflictExpetion = exports.NotFoundExpetion = exports.BadRequestExpetion = exports.ApplicationExpition = void 0;
+exports.globalErrorHandler = exports.ForbiddedExpetion = exports.UnothorizedtExpetion = exports.ConflictExpetion = exports.NotFoundExpetion = exports.BadRequestExpetion = exports.ApplicationExpition = void 0;
 class ApplicationExpition extends Error {
     statusCode;
     constructor(message, statusCode = 400, options) {
@@ -28,11 +28,22 @@ class ConflictExpetion extends ApplicationExpition {
     }
 }
 exports.ConflictExpetion = ConflictExpetion;
+class UnothorizedtExpetion extends ApplicationExpition {
+    constructor(message, options) {
+        super(message, 401, options);
+    }
+}
+exports.UnothorizedtExpetion = UnothorizedtExpetion;
+class ForbiddedExpetion extends ApplicationExpition {
+    constructor(message, options) {
+        super(message, 403, options);
+    }
+}
+exports.ForbiddedExpetion = ForbiddedExpetion;
 const globalErrorHandler = (err, req, res, next) => {
     return res.status(err.statusCode || 500)
         .json({
-        message: err.message ||
-            "Some thing Went Rong ",
+        message: err.message || "Some thing Went Rong ",
         stack: process.env.MODE === "DEV" ? err.stack : undefined,
         cause: err.cause
     });
