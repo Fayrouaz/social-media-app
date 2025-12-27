@@ -106,5 +106,10 @@ class AuthenticiationService {
             creditionals
         });
     };
+    profileImage = async (req, res) => {
+        return res.status(200).json({
+            message: "Token Refreshed Successfully 🔄",
+        });
+    };
 }
 exports.default = new AuthenticiationService();

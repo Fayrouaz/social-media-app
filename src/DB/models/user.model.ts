@@ -27,6 +27,7 @@ import {HydratedDocument, model, models, Schema , Types} from "mongoose"
   address ?: string ;
   gender : GenderEnum ;
   role : roleEnum;
+  profileImage:string;
 
   createdAt: Date;
   updatedAt: Date;
@@ -43,6 +44,7 @@ export const userSchema= new Schema(
    resetPasswordOTP : String,
    phone :String ,
    address : String ,
+   profileImage :String ,
    gender :{
     type : String,
     enum : Object.values(GenderEnum),

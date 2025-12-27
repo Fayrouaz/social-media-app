@@ -146,7 +146,8 @@ logout = async (req: any, res: Response) => {
       creditionals 
     });
   };
- }
+
+}
 
 
 export  default new AuthenticiationService();
