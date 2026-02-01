@@ -132,7 +132,7 @@ console.log("Secret used:", tokenType === tokenTypeEnum.REFRESH ? "Using Refresh
 
  
 
-  const user = await userModel.findById({id :{_id : decode._id}})
+  const user = await userModel.findById({ id :{_id : decode._id}})
 
   if(!user) throw new NotFoundExpetion("User Not Found");
 

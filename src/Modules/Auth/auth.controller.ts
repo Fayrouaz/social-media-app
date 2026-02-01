@@ -13,15 +13,12 @@ const router = Router();
 router.post("/signup",validation(signUpSchema),authService.signup );
 router.post("/login",authService.login );
 router.patch("/confirm-email" ,validation(confirmEmislOtpSchema),authService.confirmEmial );
-router.post("/revoke-token",  authentication({
-    tokenType: tokenTypeEnum.ACCESS, 
-    accessRoles: []    
-  }),authService.logout );
+router.post("/revoke-token", authentication(tokenTypeEnum.ACCESS, []),authService.logout );
 
 
 router.patch(
   "/refresh-token", 
-  authentication({ tokenType: tokenTypeEnum.REFRESH ,accessRoles:[]}), 
+authentication(tokenTypeEnum.REFRESH, []), 
   authService.refreshToken
 );
 

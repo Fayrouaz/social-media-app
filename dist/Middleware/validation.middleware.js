@@ -61,11 +61,25 @@ const validation = (schema) => {
 };
 exports.validation = validation;
 exports.generalFields = {
-    username: z.string({ error: "Username  is required" })
-        .min(3, { error: "Username must be at least 3 character long " })
-        .max(30, { error: "Username must be at more 30 character long " }),
-    email: z.email({ error: "Invalid Email Address" }),
+    username: z.string()
+        .min(3, { message: "Username must be at least 3 characters long" })
+        .max(30, { message: "Username must be at most 30 characters long" }),
+    email: z.string().email({ message: "Invalid email address" }),
     password: z.string(),
     confirmPassword: z.string(),
-    confirmEmailOtp: z.string().regex(/^\d{6}$/)
+    otp: z.string().regex(/^\d{5,7}$/),
+    file: function (mimetype = []) {
+        return z.strictObject({
+            fieldname: z.string(),
+            originalname: z.string(),
+            encoding: z.string(),
+            mimetype: z.enum(mimetype),
+            buffer: z.any().optional(),
+            path: z.string().optional(),
+            size: z.number(),
+        }).refine((data) => data.path || data.buffer, {
+            message: "Please provide a file",
+        });
+    },
+    id: z.string().refine((val) => val.length === 24, { message: "Invalid ID" })
 };

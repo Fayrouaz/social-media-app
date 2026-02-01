@@ -7,6 +7,9 @@ import { CreateOptions, Model  } from "mongoose";
 
 
 export class UserRepository extends DatabaseRepository<IUser>{
+  // findOneAndUpdate(arg0: { filter: { _id: any; frozenAt: null; }; update: { frozenAt: Date; frozenBy: any; }; options: { new: boolean; }; }) {
+  //   throw new Error("Method not implemented.");
+  // }
   constructor(protected override readonly model :Model<IUser>){
     super(model);
    }

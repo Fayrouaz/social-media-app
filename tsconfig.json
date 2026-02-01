@@ -14,8 +14,8 @@
     // "lib": ["esnext"],
     "types": ["node"],
      "paths":{
-     "*" :["./src/Utils/types/*"]
-    }
+     "*" :["./src/Utils/types/*"],
+    },
     // and npm install -D @types/node
 
     // Other Outputs
@@ -23,8 +23,9 @@
     // "declaration": true,
     // "declarationMap": true,
 
-    // Stricter Typechecking Options
+    //Stricter Typechecking Options
     "noUncheckedIndexedAccess": true,
+
     "exactOptionalPropertyTypes": true,
     "removeComments": true,
 

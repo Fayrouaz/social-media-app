@@ -9,22 +9,32 @@ import { BadRequestExpetion, ForbiddedExpetion } from "../Utils/response/error.r
 
 
 
-export const authentication =  ({tokenType = tokenTypeEnum.ACCESS , accessRoles}:{tokenType:tokenTypeEnum ,accessRoles:roleEnum[]})=>{
 
-  return  async(req:Request ,res:Response ,next:NextFunction)=>{
-     if(!req.headers.authorization) throw new BadRequestExpetion("Missing Authorization headers");
-  
-   const {decode , user} =await decodedToken({authorizition :req.headers.authorization , tokenType})
-    if (accessRoles.length > 0 && !accessRoles.includes(user.role)) {
-       throw new ForbiddedExpetion("You Are Not Authorized to access this route");
+
+export const authentication = (tokenType: tokenTypeEnum = tokenTypeEnum.ACCESS, accessRoles: roleEnum[] = []) => {
+  return async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const authorization = req.headers.authorization;
+      if (!authorization) {
+        return next(new BadRequestExpetion("Missing Authorization headers"));
+      }
+
+      // نمرر الـ tokenType اللي جاي من الـ Router
+      const { decode, user } = await decodedToken({
+        authorizition: authorization,
+        tokenType: tokenType 
+      });
+
+      if (accessRoles.length > 0 && !accessRoles.includes(user.role)) {
+        return next(new ForbiddedExpetion("You Are Not Authorized to access this route"));
+      }
+
+      req.user = user as any;
+      req.decode = decode;
+
+      return next();
+    } catch (error: any) {
+      return next(error);
     }
-   //if(!accessRoles.includes(user.role)) throw new ForbiddedExpetion("You Are Not Authorized to access this route")
-
-    req.decode = decode ;
-    req.user = user;
-     return next();
- 
-}
-
- 
-}
+  };
+};

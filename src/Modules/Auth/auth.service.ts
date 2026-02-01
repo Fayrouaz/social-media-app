@@ -6,7 +6,7 @@ import {  IUser, UserModel } from "../../DB/models/user.model";
 import { BadRequestExpetion, ConflictExpetion, NotFoundExpetion, UnothorizedtExpetion } from "../../Utils/response/error.response";
 import { UserRepository } from "../../DB/Repositry/user.repositry";
 import { Model } from "mongoose";
-import { compareHash, generateHash } from "../../Utils/security/hash";
+import { compareHash } from "../../Utils/security/hash";
 import { generateOtp } from "../../Utils/security/generateOtp";
 import { emailEvents } from "../../Utils/events/event.email";
 import { createLoginCreditionals} from "../../Utils/security/token";
@@ -25,7 +25,7 @@ class AuthenticiationService{
       });
         if(checkUser) throw new ConflictExpetion("User Already Exists")
            const otp = generateOtp();
-           const user = await this._userModel.createUser({data :[{username ,email ,password:await generateHash(password) ,confirmEmailOTP:await generateHash(otp)},]
+           const user = await this._userModel.createUser({data :[{username ,email ,password ,confirmEmailOTP:`${otp}`},]
             ,options :{validateBeforeSave : true}}) 
 
            await emailEvents.emit("confirmEmail" ,{

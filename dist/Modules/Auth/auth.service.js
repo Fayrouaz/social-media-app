@@ -20,7 +20,7 @@ class AuthenticiationService {
         if (checkUser)
             throw new error_response_1.ConflictExpetion("User Already Exists");
         const otp = (0, generateOtp_1.generateOtp)();
-        const user = await this._userModel.createUser({ data: [{ username, email, password: await (0, hash_1.generateHash)(password), confirmEmailOTP: await (0, hash_1.generateHash)(otp) },],
+        const user = await this._userModel.createUser({ data: [{ username, email, password, confirmEmailOTP: `${otp}` },],
             options: { validateBeforeSave: true } });
         await event_email_1.emailEvents.emit("confirmEmail", {
             to: email,
@@ -104,11 +104,6 @@ class AuthenticiationService {
         return res.status(200).json({
             message: "Token Refreshed Successfully 🔄",
             creditionals
-        });
-    };
-    profileImage = async (req, res) => {
-        return res.status(200).json({
-            message: "Token Refreshed Successfully 🔄",
         });
     };
 }

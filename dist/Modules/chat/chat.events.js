@@ -1,0 +1,18 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ChatEvents = void 0;
+const chat_service_1 = require("./chat.service");
+class ChatEvents {
+    _chatService = new chat_service_1.ChatService();
+    sayHi = (socket, io) => {
+        return socket.on("sayHi", (message, callback) => {
+            this._chatService.sayHi({ message, socket, callback, io });
+        });
+    };
+    sendMessage = (socket, io) => {
+        return socket.on("sendMessage", (data) => {
+            this._chatService.sendMessage({ ...data, socket, io });
+        });
+    };
+}
+exports.ChatEvents = ChatEvents;
